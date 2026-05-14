@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import teamReducer, { addMember, removeMember } from "@/store/teamSlice";
+import teamReducer, { addMember, removeMember, loadMembers } from "@/store/teamSlice";
 import {
   loadTeamState,
   saveTeamState,
@@ -185,24 +185,24 @@ describe("team persistence middleware integration", () => {
     expect(saved?.members[0].id).toBe(8);
   });
 
-  it("loads persisted state into a new store via preloadedState", () => {
-    // Simulate a page refresh: save state first, then create a fresh store
+  it("loads persisted state via loadMembers dispatch (StoreProvider pattern)", () => {
+    // Simulate page refresh: data is in localStorage, StoreProvider dispatches loadMembers after mount
     saveTeamState({ members: [makeChar(99)] });
-    const preloaded = loadTeamState();
-    const freshStore = configureStore({
-      reducer: { team: teamReducer },
-      preloadedState: preloaded ? { team: preloaded } : undefined,
-    });
+    const freshStore = configureStore({ reducer: { team: teamReducer } });
+    const saved = loadTeamState();
+    if (saved && saved.members.length > 0) {
+      freshStore.dispatch(loadMembers(saved.members));
+    }
     expect(freshStore.getState().team.members[0].id).toBe(99);
   });
 
   it("starts with empty team when localStorage is corrupt on hydration", () => {
     localStorage.setItem(STORAGE_KEY, "CORRUPTED");
-    const preloaded = loadTeamState(); // returns undefined
-    const freshStore = configureStore({
-      reducer: { team: teamReducer },
-      preloadedState: preloaded ? { team: preloaded } : undefined,
-    });
+    const freshStore = configureStore({ reducer: { team: teamReducer } });
+    const saved = loadTeamState(); // returns undefined
+    if (saved && saved.members.length > 0) {
+      freshStore.dispatch(loadMembers(saved.members));
+    }
     expect(freshStore.getState().team.members).toHaveLength(0);
   });
 });

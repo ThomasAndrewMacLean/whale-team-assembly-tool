@@ -26,8 +26,11 @@ const teamSlice = createSlice({
     removeMember(state, action: PayloadAction<number>) {
       state.members = state.members.filter((m) => m.id !== action.payload);
     },
+    loadMembers(state, action: PayloadAction<Character[]>) {
+      state.members = action.payload;
+    },
   },
 });
 
-export const { addMember, removeMember } = teamSlice.actions;
+export const { addMember, removeMember, loadMembers } = teamSlice.actions;
 export default teamSlice.reducer;

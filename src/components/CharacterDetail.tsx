@@ -33,13 +33,19 @@ export default function CharacterDetail({ character, prevId, nextId }: Props) {
   const router = useRouter();
   const dict = useDictionary();
   const { lang } = useParams<{ lang: string }>();
+  const [isMounted, setIsMounted] = useState(false); // To prevent hydration mismatch
 
   // Restore the list page the user came from (page/query params preserved)
   const [listHref, setListHref] = useState(`/${lang}`);
+  
   useEffect(() => {
     const saved = sessionStorage.getItem("sw-list-return");
-    if (saved) setListHref(saved);
+    if (saved) {
+      setListHref(saved);
+    }
+    setIsMounted(true);
   }, []);
+
 
   const isInTeam = team.some((m) => m.id === character.id);
   const isEvil = isEvilCharacter(character);
@@ -217,7 +223,10 @@ export default function CharacterDetail({ character, prevId, nextId }: Props) {
           )}
 
           <Box>
-            {isEvil ? (
+        
+            { isMounted ?
+            
+            isEvil ? (
               <Button
                 variant="outlined"
                 disabled
@@ -242,7 +251,10 @@ export default function CharacterDetail({ character, prevId, nextId }: Props) {
               >
                 {teamFull ? dict.character.teamFull : dict.character.addToTeam}
               </Button>
-            )}
+            )
+          : <Button>
+            {dict.character.loading}
+            </Button>}
           </Box>
 
           <Divider />

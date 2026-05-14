@@ -18,6 +18,7 @@
     "tapForStats": "Tap to see stats →",
     "viewDetail": "View detail",
     "remove": "Remove",
+    "loading": "Loading...",
     "stats": {
       "height": "Height",
       "mass": "Mass",

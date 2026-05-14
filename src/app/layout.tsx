@@ -6,6 +6,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Star Wars Team Assembly",
   description: "Assemble your Star Wars team — may the Force be with you.",
+  icons: { icon: "/favicon.svg" },
 };
 
 export default function RootLayout({
@@ -14,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html>
       <body>
         <ThemeRegistry>
           <StoreProvider>{children}</StoreProvider>

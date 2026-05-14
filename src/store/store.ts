@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import type { Middleware } from "@reduxjs/toolkit";
 import characterReducer from "./characterSlice";
 import teamReducer from "./teamSlice";
-import { loadTeamState, saveTeamState } from "./teamPersistence";
+import { saveTeamState } from "./teamPersistence";
 
 const teamPersistenceMiddleware: Middleware =
   (storeAPI) => (next) => (action) => {
@@ -12,17 +12,19 @@ const teamPersistenceMiddleware: Middleware =
     return result;
   };
 
-const preloadedTeam = loadTeamState();
+// Factory — called once per client app mount inside StoreProvider.
+// Never called at module level so localStorage is never read on the server.
+export function makeStore() {
+  return configureStore({
+    reducer: {
+      characters: characterReducer,
+      team: teamReducer,
+    },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(teamPersistenceMiddleware),
+  });
+}
 
-export const store = configureStore({
-  reducer: {
-    characters: characterReducer,
-    team: teamReducer,
-  },
-  preloadedState: preloadedTeam ? { team: preloadedTeam } : undefined,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(teamPersistenceMiddleware),
-});
-
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type AppStore = ReturnType<typeof makeStore>;
+export type RootState = ReturnType<AppStore["getState"]>;
+export type AppDispatch = AppStore["dispatch"];
