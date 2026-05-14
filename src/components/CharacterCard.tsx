@@ -15,9 +15,10 @@ import { useDictionary } from "./DictionaryProvider";
 
 interface Props {
   character: Character;
+  priority?: boolean;
 }
 
-export default function CharacterCard({ character }: Props) {
+export default function CharacterCard({ character, priority = false }: Props) {
   const evil = isEvilCharacter(character);
   const dict = useDictionary();
   const { lang } = useParams<{ lang: string }>();
@@ -70,6 +71,7 @@ export default function CharacterCard({ character }: Props) {
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
               style={{ objectFit: "cover", objectPosition: "top" }}
+              priority={priority}
             />
           </Box>
         </ViewTransition>
@@ -86,8 +88,8 @@ export default function CharacterCard({ character }: Props) {
               label={dict.character.darkSide}
               size="small"
               sx={{
-                bgcolor: "rgba(239,68,68,0.1)",
-                color: "error.main",
+                bgcolor: "#7f1d1d",
+                color: "#fecaca",
                 fontSize: "0.65rem",
                 height: 20,
               }}

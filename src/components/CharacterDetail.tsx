@@ -148,8 +148,8 @@ export default function CharacterDetail({ character, prevId, nextId }: Props) {
               <Chip
                 label={dict.character.darkSide}
                 sx={{
-                  bgcolor: "rgba(239,68,68,0.1)",
-                  color: "error.main",
+                  bgcolor: "#7f1d1d",
+                  color: "#fecaca",
                   fontWeight: 600,
                 }}
               />

@@ -11,6 +11,8 @@ const LOCALE_LABELS: Record<Locale, string> = {
   mandoa: "Mando'a",
 };
 
+const LS_LANG_KEY = "sw-locale";
+
 export default function LanguageSwitcher() {
   const params = useParams();
   const pathname = usePathname();
@@ -18,6 +20,9 @@ export default function LanguageSwitcher() {
   const currentLang = params.lang as Locale;
 
   function switchLocale(newLocale: Locale) {
+    localStorage.setItem(LS_LANG_KEY, newLocale);
+    // Also set a cookie so the middleware can redirect bare URLs to the right locale
+    document.cookie = `sw-locale=${newLocale};path=/;max-age=31536000;SameSite=Lax`;
     const newPath = pathname.replace(`/${currentLang}`, `/${newLocale}`);
     router.push(newPath);
   }

@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
+import Typography from "@mui/material/Typography";
 import StoreProvider from "@/store/StoreProvider";
 import TeamPanel from "@/components/TeamPanel";
 import ThemeRegistry from "@/theme/ThemeRegistry";
@@ -14,6 +16,7 @@ import "../globals.css";
 export const metadata: Metadata = {
   title: "Star Wars Team Assembly",
   description: "Assemble your Star Wars team — may the Force be with you.",
+  icons: { icon: "/favicon.svg" },
 };
 
 export async function generateStaticParams() {
@@ -50,7 +53,8 @@ export default async function RootLayout({
                   top: 0,
                   zIndex: 50,
                   display: "flex",
-                  justifyContent: "flex-end",
+                  alignItems: "center",
+                  justifyContent: "space-between",
                   px: 2,
                   py: 1,
                   bgcolor: "background.default",
@@ -58,6 +62,27 @@ export default async function RootLayout({
                   borderColor: "divider",
                 }}
               >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <Image
+                    src="/logo.svg"
+                    alt=""
+                    width={28}
+                    height={28}
+                    priority
+                  />
+                  <Typography
+                    variant="subtitle1"
+                    component="span"
+                    sx={{
+                      fontWeight: 700,
+                      letterSpacing: "0.04em",
+                      color: "primary.main",
+                      lineHeight: 1,
+                    }}
+                  >
+                    Squad Assembler
+                  </Typography>
+                </Box>
                 <HeaderControls />
               </Box>
               <Divider />

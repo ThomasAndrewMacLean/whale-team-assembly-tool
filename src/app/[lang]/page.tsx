@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -34,7 +35,9 @@ export default async function HomePage({
           {dict.home.subtitle}
         </Typography>
       </Box>
-      <CharacterGrid characters={characters} />
+      <Suspense>
+        <CharacterGrid characters={characters} />
+      </Suspense>
     </Container>
   );
 }

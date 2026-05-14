@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import StoreProvider from "@/store/StoreProvider";
-import TeamPanel from "@/components/TeamPanel";
 import ThemeRegistry from "@/theme/ThemeRegistry";
+import StoreProvider from "@/store/StoreProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,10 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ThemeRegistry>
-          <StoreProvider>
-            {children}
-            <TeamPanel />
-          </StoreProvider>
+          <StoreProvider>{children}</StoreProvider>
         </ThemeRegistry>
       </body>
     </html>
