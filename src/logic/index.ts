@@ -11,8 +11,7 @@ const EVIL_NAME_KEYWORDS = ["Darth", "Sith"];
  */
 const EVIL_MASTER_KEYWORDS = ["Darth"];
 
-const toPattern = (keywords: string[]) =>
-  new RegExp(keywords.join("|"), "i");
+const toPattern = (keywords: string[]) => new RegExp(keywords.join("|"), "i");
 
 export function isEvilCharacter(character: Character): boolean {
   const evilNamePattern = toPattern(EVIL_NAME_KEYWORDS);
@@ -21,15 +20,15 @@ export function isEvilCharacter(character: Character): boolean {
   if (evilNamePattern.test(character.name)) return true;
 
   const hasEvilAffiliation = character.affiliations.some((aff) =>
-    evilNamePattern.test(aff)
+    evilNamePattern.test(aff),
   );
   if (hasEvilAffiliation) return true;
 
   const masters = Array.isArray(character.masters)
     ? character.masters
     : character.masters
-    ? [character.masters]
-    : [];
+      ? [character.masters]
+      : [];
 
   return masters.some((m) => evilMasterPattern.test(m));
 }

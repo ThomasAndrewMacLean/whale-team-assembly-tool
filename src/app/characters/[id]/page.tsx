@@ -15,7 +15,8 @@ export default async function CharacterPage({ params }: Props) {
 
   const character = characters[index];
   const prevId = index > 0 ? characters[index - 1].id : null;
-  const nextId = index < characters.length - 1 ? characters[index + 1].id : null;
+  const nextId =
+    index < characters.length - 1 ? characters[index + 1].id : null;
 
   return (
     <CharacterDetail character={character} prevId={prevId} nextId={nextId} />

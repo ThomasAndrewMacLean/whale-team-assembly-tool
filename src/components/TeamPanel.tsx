@@ -26,7 +26,11 @@ export default function TeamPanel() {
         <aside className={styles.panel}>
           <div className={styles.panelHeader}>
             <h2 className={styles.title}>Your Team</h2>
-            <Link href="/team" className={styles.teamPageLink} onClick={() => setOpen(false)}>
+            <Link
+              href="/team"
+              className={styles.teamPageLink}
+              onClick={() => setOpen(false)}
+            >
               View full page →
             </Link>
           </div>

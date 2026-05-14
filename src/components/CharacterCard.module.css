@@ -7,7 +7,9 @@
   color: inherit;
   background: #111827;
   border: 1px solid #1f2937;
-  transition: transform 0.2s, border-color 0.2s;
+  transition:
+    transform 0.2s,
+    border-color 0.2s;
   cursor: pointer;
 }
 

@@ -26,9 +26,15 @@ export default function CharacterDetail({ character, prevId, nextId }: Props) {
   const teamFull = team.length >= 5;
 
   const stats: { label: string; value: string | number }[] = [
-    ...(character.height ? [{ label: "Height", value: `${character.height} m` }] : []),
-    ...(character.mass ? [{ label: "Mass", value: `${character.mass} kg` }] : []),
-    ...(character.species ? [{ label: "Species", value: character.species }] : []),
+    ...(character.height
+      ? [{ label: "Height", value: `${character.height} m` }]
+      : []),
+    ...(character.mass
+      ? [{ label: "Mass", value: `${character.mass} kg` }]
+      : []),
+    ...(character.species
+      ? [{ label: "Species", value: character.species }]
+      : []),
     ...(character.gender ? [{ label: "Gender", value: character.gender }] : []),
     ...(character.homeworld && !Array.isArray(character.homeworld)
       ? [{ label: "Homeworld", value: character.homeworld }]
@@ -58,9 +64,7 @@ export default function CharacterDetail({ character, prevId, nextId }: Props) {
         <div className={styles.info}>
           <div>
             <h1 className={styles.name}>{character.name}</h1>
-            {isEvil && (
-              <div className={styles.evilBadge}>⚡ Dark Side</div>
-            )}
+            {isEvil && <div className={styles.evilBadge}>⚡ Dark Side</div>}
           </div>
 
           <div className={styles.stats}>

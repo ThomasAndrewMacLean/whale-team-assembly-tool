@@ -17,14 +17,22 @@ export default function TeamMemberCard({ character }: Props) {
   const dispatch = useAppDispatch();
 
   const stats: { label: string; value: string | number }[] = [
-    ...(character.height ? [{ label: "Height", value: `${character.height} m` }] : []),
-    ...(character.mass ? [{ label: "Mass", value: `${character.mass} kg` }] : []),
-    ...(character.species ? [{ label: "Species", value: character.species }] : []),
+    ...(character.height
+      ? [{ label: "Height", value: `${character.height} m` }]
+      : []),
+    ...(character.mass
+      ? [{ label: "Mass", value: `${character.mass} kg` }]
+      : []),
+    ...(character.species
+      ? [{ label: "Species", value: character.species }]
+      : []),
     ...(character.gender ? [{ label: "Gender", value: character.gender }] : []),
     ...(character.homeworld && !Array.isArray(character.homeworld)
       ? [{ label: "Homeworld", value: character.homeworld }]
       : []),
-    ...(character.born !== undefined ? [{ label: "Born", value: character.born }] : []),
+    ...(character.born !== undefined
+      ? [{ label: "Born", value: character.born }]
+      : []),
   ];
 
   return (

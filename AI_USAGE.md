@@ -7,6 +7,7 @@ This file tracks every prompt submitted to AI during this project, along with a 
 ## 1. Project scaffolding — Redux + folder structure
 
 **Prompt:**
+
 > add redux to this repo, we also need a logic folder, a types folder and an api folder
 
 **Summary:**
@@ -17,6 +18,7 @@ Initial project setup after bootstrapping with `create-next-app`. Asked AI to in
 ## 2. TypeScript types from API response
 
 **Prompt:**
+
 > generate the correct types from this array: [full Star Wars API JSON sample]
 
 **Summary:**
@@ -27,10 +29,12 @@ Pasted a large sample of the Star Wars API response (from `https://akabab.github
 ## 3. Homepage character list with Redux, API, skeleton loading, and view transitions
 
 **Prompt:**
+
 > on the homepage we want to list all characters that we get from this api route: https://akabab.github.io/starwars-api/api/all.json we will store these in the redux store, every character will also have a detail page, use page transition to go from one page to next and make the image move nicely from one page to the next. we want to show skeleton placeholders for the character cards while we fetch the data from the api (we dont have api key, but still do the call from the server so any api key that could exist is secure)
 
 **Summary:**
 The most substantial prompt — covered several requirements at once:
+
 - **Server-side fetch**: `fetchAllCharacters()` in `src/api/index.ts` runs on the server (Next.js Server Component), keeping any credentials away from the client.
 - **Redux hydration**: `CharacterGrid` dispatches `setCharacters` on mount so the store reflects the fetched list for client-side use.
 - **Skeleton loading**: Next.js `loading.tsx` files provide instant `<Suspense>` fallbacks with animated placeholder cards while the server fetch resolves.
@@ -43,7 +47,9 @@ The most substantial prompt — covered several requirements at once:
 ## 4. Evil character detection with configurable rules
 
 **Prompt:**
+
 > add a function to the logic where we check if a character is evil: these are the rules to be considered evil, make sure we can easily change these if needed:
+>
 > - They have 'Darth' or 'Sith' in their name
 > - They have at least one affiliation that mentions 'Darth' or 'Sith' (you may ignore former affiliations)
 > - They have at least one master with 'Darth' in their name
@@ -56,6 +62,7 @@ Asked for a clean, maintainable implementation of the evil-detection rules in `s
 ## 5. AI usage log
 
 **Prompt:**
+
 > write all questions i ask (and have asked) AI here and a brief summary of them to a file. This is a front end test to apply to the company whale so we need a track of my reasoning and use of AI
 
 **Summary:**
