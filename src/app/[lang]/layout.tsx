@@ -49,13 +49,7 @@ export default async function RootLayout({
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <Image
-            src="/logo.svg"
-            alt=""
-            width={28}
-            height={28}
-            priority
-          />
+          <Image src="/logo.svg" alt="" width={28} height={28} priority />
           <Typography
             variant="subtitle1"
             component="span"

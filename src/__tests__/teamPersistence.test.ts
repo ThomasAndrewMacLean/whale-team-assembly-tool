@@ -1,5 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import teamReducer, { addMember, removeMember, loadMembers } from "@/store/teamSlice";
+import teamReducer, {
+  addMember,
+  removeMember,
+  loadMembers,
+} from "@/store/teamSlice";
 import {
   loadTeamState,
   saveTeamState,
