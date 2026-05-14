@@ -46,6 +46,9 @@ export default function CharacterCard({ character, priority = false }: Props) {
       <CardActionArea
         component={Link}
         href={`/${lang}/characters/${character.id}`}
+        onClick={() =>
+          sessionStorage.setItem("sw-list-scroll", String(window.scrollY))
+        }
         sx={{
           flexGrow: 1,
           display: "flex",

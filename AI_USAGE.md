@@ -283,3 +283,105 @@ Created two SVGs:
 
 **Summary:**
 Appended all prompts and summaries from the current session (prompts 6–21) to this file, covering the full arc of the project from MUI integration through to the final UX polish.
+
+---
+
+## 22. MUI hydration error fix
+
+**Prompt:**
+
+> fix the hydration errors in the console
+
+**Summary:**
+React was throwing a hydration mismatch because MUI's Emotion cache generated different class name hashes on the server vs the client. Fixed by installing `@mui/material-nextjs` and replacing the manual `createEmotionCache` + `CacheProvider` setup in `ThemeRegistry.tsx` with the official `AppRouterCacheProvider` from `@mui/material-nextjs/v15-appRouter`. This lets Next.js and Emotion coordinate cache flushing correctly during SSR.
+
+---
+
+## 23. localStorage removal
+
+**Prompt:**
+
+> remove all localStorage saving
+
+**Summary:**
+Several features were persisting state to `localStorage` on the client — causing React hydration mismatches because the server renders with defaults and the client immediately re-renders with stored values. Removed `localStorage` reads/writes from:
+
+- `CharacterGrid` (`sw-page-size` — page size preference)
+- `AppThemeProvider` (`sw-theme-settings` — colour mode / font size)
+- `LanguageSwitcher` (`sw-locale` write — language preference)
+
+Language selection still sets a cookie (read server-side by middleware) so locale routing is preserved without client-side hydration issues.
+
+---
+
+## 24. Back button restores correct page
+
+**Prompt:**
+
+> back button goes to correct URL but page resets to 1 on arrival
+
+**Summary:**
+A `useEffect` dependent on `[query, pageSize]` was calling `pushPage(1)` on mount, wiping the `?page=N` from the URL every time `CharacterGrid` mounted (including when returning from a detail page). Removed the effect entirely; `pushPage(1)` is now only called explicitly inside `handleQueryChange` and `handlePageSizeChange`. `sessionStorage("sw-list-return")` is written on every navigation so the detail page's back button always has the correct URL to return to.
+
+---
+
+## 25. Scroll position restoration
+
+**Prompt:**
+
+> save/restore scroll position when navigating to a character detail and clicking back
+
+**Summary:**
+When a card is clicked, `CharacterCard` writes `window.scrollY` to `sessionStorage("sw-list-scroll")`. On mount, `CharacterGrid` reads the key, removes it, and calls `window.scrollTo` inside a `requestAnimationFrame` so the DOM has fully painted before the scroll is applied. Using `behavior: "instant"` avoids a visible animated jump. The key is removed immediately so a fresh visit to the list doesn't misfire the restore.
+
+---
+
+## 26. Comprehensive unit test suite
+
+**Prompt:**
+
+> add a ton of unit tests and show me test coverage. try breaking the app as much as you can
+
+**Summary:**
+Full Jest + React Testing Library setup from scratch:
+
+- **Dependencies**: `jest`, `jest-fixed-jsdom`, `@testing-library/react`, `@testing-library/user-event`, `@testing-library/jest-dom`, `babel-jest`, `identity-obj-proxy`, `@types/jest`
+- **Config**: `jest.config.ts` using `next/jest.js` integration, `jest-fixed-jsdom` test environment, `@/` path alias, coverage collection excluding `src/app/**` and store boilerplate
+- **122 tests across 10 suites**:
+  - `logic.test.ts` — 17 tests for `isEvilCharacter` (keyword rules, affiliations, masters, edge cases)
+  - `fuzzy.test.ts` — 22 tests for `fuzzyScore` and `fuzzyFilter` (exact match, subsequence, typos, sorting, empty input)
+  - `characterPlaceholder.test.ts` — 11 tests for the seeded SVG generator (consistent output, correct structure, URL-encoded SVG handling)
+  - `teamSlice.test.ts` — 16 tests for Redux team slice actions
+  - `characterSlice.test.ts` — 4 tests for character slice
+  - `i18n.test.ts` — 8 tests for locale config and helpers
+  - `SearchBar.test.tsx` — 10 component tests
+  - `CharacterCard.test.tsx` — 6 component tests
+  - `TeamPanel.test.tsx` — 12 component tests
+  - `useGlobalShortcuts.test.ts` — 13 hook tests (including `contentEditable` guard via `Object.defineProperty`)
+- **Full coverage** on all pure logic, lib, store, and hook files.
+
+---
+
+## 27. Search query in URL params
+
+**Prompt:**
+
+> also keep search input in query params. we should be able to input a search, go to second page of the search results, click on a character and click on the go back button to the same page
+
+**Summary:**
+Changed `query` in `CharacterGrid` from local `useState` to derived state from `searchParams.get("q")`. `handleQueryChange` now calls `router.replace` with `?q=...` (removing `?page` to reset to page 1), rather than updating local state. Since `pushPage` already builds from `new URLSearchParams(searchParams.toString())`, it naturally preserves `?q=` when changing pages. The result is a fully URL-driven state: `?q=luke&page=2` round-trips through navigation, so the back button on the detail page restores both the search and the page.
+
+---
+
+## 28. Persistent team members across page refreshes
+
+**Prompt:**
+
+> we want to have persistent memory of our team members so we keep them if the page refreshes. what would you recommend to do this? use library or add logic to the reducer and save/load from local storage? what if this data gets corrupt? implement it, and add unit tests
+
+**Summary:**
+Chose a custom middleware + `preloadedState` approach over `redux-persist` to avoid SSR complexity and unnecessary bundle weight. Implementation:
+
+- **`src/store/teamPersistence.ts`**: `loadTeamState()` reads `sw-team` from `localStorage`, validates shape with `isValidTeamState()` (checks `members` is an array where every entry has a numeric `id` and string `name`), and returns `undefined` on any failure — corrupt JSON, wrong root type, missing fields. `saveTeamState()` serialises and silently swallows quota/private-browsing errors.
+- **`src/store/store.ts`**: `preloadedState` hydrates the team slice from `localStorage` on startup; `teamPersistenceMiddleware` saves after every dispatched action.
+- **24 unit tests** in `teamPersistence.test.ts` covering: 9 shape validation cases, 8 load cases (empty, valid, corrupt JSON, null JSON, wrong type, bad members), quota-exceeded simulation, middleware save/load round-trip, and corrupt-data → safe empty-team fallback on hydration.

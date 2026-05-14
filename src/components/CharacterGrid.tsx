@@ -18,15 +18,6 @@ import type { Character } from "@/types";
 
 const PAGE_SIZE_OPTIONS = [12, 24, 48] as const;
 type PageSize = (typeof PAGE_SIZE_OPTIONS)[number];
-const LS_KEY = "sw-page-size";
-
-function readStoredPageSize(): PageSize {
-  if (typeof window === "undefined") return 12;
-  const v = Number(localStorage.getItem(LS_KEY));
-  return (PAGE_SIZE_OPTIONS as readonly number[]).includes(v)
-    ? (v as PageSize)
-    : 12;
-}
 
 interface Props {
   characters: Character[];
@@ -38,13 +29,10 @@ export default function CharacterGrid({ characters }: Props) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [query, setQuery] = useState("");
-  const [pageSize, setPageSize] = useState<PageSize>(12); // hydrated from LS after mount
+  const [pageSize, setPageSize] = useState<PageSize>(12);
 
-  // Hydrate page size from localStorage once on mount
-  useEffect(() => {
-    setPageSize(readStoredPageSize());
-  }, []);
+  // Query is kept in the URL (?q=...) so back navigation restores it
+  const query = searchParams.get("q") ?? "";
 
   // Read page from URL (?page=N), default 1
   const page = Math.max(1, Number(searchParams.get("page")) || 1);
@@ -57,21 +45,39 @@ export default function CharacterGrid({ characters }: Props) {
       } else {
         params.set("page", String(newPage));
       }
-      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+      const qs = params.toString();
+      const newUrl = qs ? `${pathname}?${qs}` : pathname;
+      // Remember the list position so the detail page back-button can restore it
+      sessionStorage.setItem("sw-list-return", newUrl);
+      router.replace(newUrl, { scroll: false });
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
     [router, pathname, searchParams],
   );
 
+  // Also persist on first render (covers page load without any navigation)
+  useEffect(() => {
+    const qs = searchParams.toString();
+    sessionStorage.setItem(
+      "sw-list-return",
+      qs ? `${pathname}?${qs}` : pathname,
+    );
+  }, [pathname, searchParams]);
+
+  // Restore scroll position when returning from a detail page
+  useEffect(() => {
+    const saved = sessionStorage.getItem("sw-list-scroll");
+    if (saved) {
+      sessionStorage.removeItem("sw-list-scroll");
+      requestAnimationFrame(() =>
+        window.scrollTo({ top: Number(saved), behavior: "instant" }),
+      );
+    }
+  }, []);
+
   useEffect(() => {
     dispatch(setCharacters(characters));
   }, [dispatch, characters]);
-
-  // Reset to page 1 whenever query or page size changes
-  useEffect(() => {
-    pushPage(1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, pageSize]);
 
   const filtered = useMemo(
     () => fuzzyFilter(characters, query, (c) => c.name),
@@ -85,16 +91,30 @@ export default function CharacterGrid({ characters }: Props) {
     safePage * pageSize,
   );
 
+  function handleQueryChange(newQuery: string) {
+    const params = new URLSearchParams(searchParams.toString());
+    if (newQuery) {
+      params.set("q", newQuery);
+    } else {
+      params.delete("q");
+    }
+    params.delete("page");
+    const qs = params.toString();
+    const newUrl = qs ? `${pathname}?${qs}` : pathname;
+    sessionStorage.setItem("sw-list-return", newUrl);
+    router.replace(newUrl, { scroll: false });
+  }
+
   function handlePageSizeChange(newSize: PageSize) {
     setPageSize(newSize);
-    localStorage.setItem(LS_KEY, String(newSize));
+    pushPage(1);
   }
 
   return (
     <>
       <Box sx={{ display: "flex", gap: 2, alignItems: "flex-start", mb: 3 }}>
         <Box sx={{ flex: 1 }}>
-          <SearchBar value={query} onChange={setQuery} />
+          <SearchBar value={query} onChange={handleQueryChange} />
         </Box>
         <FormControl size="small" sx={{ minWidth: 90, flexShrink: 0 }}>
           <Select

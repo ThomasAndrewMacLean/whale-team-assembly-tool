@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ViewTransition } from "react";
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
@@ -33,6 +33,13 @@ export default function CharacterDetail({ character, prevId, nextId }: Props) {
   const router = useRouter();
   const dict = useDictionary();
   const { lang } = useParams<{ lang: string }>();
+
+  // Restore the list page the user came from (page/query params preserved)
+  const [listHref, setListHref] = useState(`/${lang}`);
+  useEffect(() => {
+    const saved = sessionStorage.getItem("sw-list-return");
+    if (saved) setListHref(saved);
+  }, []);
 
   const isInTeam = team.some((m) => m.id === character.id);
   const isEvil = isEvilCharacter(character);
@@ -95,7 +102,7 @@ export default function CharacterDetail({ character, prevId, nextId }: Props) {
     <Container maxWidth="md" sx={{ py: 4, pb: 10 }}>
       <Button
         component={Link}
-        href={`/${lang}`}
+        href={listHref}
         startIcon={
           <ArrowBackIosNewIcon sx={{ fontSize: "0.75rem !important" }} />
         }
