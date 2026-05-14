@@ -30,7 +30,7 @@ export function fuzzyScore(text: string, query: string): number | null {
 export function fuzzyFilter<T>(
   items: T[],
   query: string,
-  getText: (item: T) => string
+  getText: (item: T) => string,
 ): T[] {
   if (!query.trim()) return items;
 

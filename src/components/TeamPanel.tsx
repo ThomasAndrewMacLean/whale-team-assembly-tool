@@ -84,7 +84,11 @@ export default function TeamPanel() {
               borderColor: "divider",
             }}
           >
-            <Typography variant="subtitle1" color="primary" sx={{ fontWeight: 700 }}>
+            <Typography
+              variant="subtitle1"
+              color="primary"
+              sx={{ fontWeight: 700 }}
+            >
               {dict.team.heading} ({team.length}/5)
             </Typography>
             <Button
@@ -101,7 +105,11 @@ export default function TeamPanel() {
 
           <Box sx={{ p: 1.5 }}>
             {team.length === 0 ? (
-              <Typography variant="body2" color="text.secondary" sx={{ py: 1, textAlign: "center" }}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ py: 1, textAlign: "center" }}
+              >
                 {dict.team.noMembers}
               </Typography>
             ) : (
@@ -112,7 +120,12 @@ export default function TeamPanel() {
                     sx={{ display: "flex", alignItems: "center", gap: 1.25 }}
                   >
                     <Avatar
-                      sx={{ width: 36, height: 36, bgcolor: "background.default", flexShrink: 0 }}
+                      sx={{
+                        width: 36,
+                        height: 36,
+                        bgcolor: "background.default",
+                        flexShrink: 0,
+                      }}
                     >
                       <CharacterImage
                         src={member.image}
@@ -129,7 +142,10 @@ export default function TeamPanel() {
                       size="small"
                       onClick={() => dispatch(removeMember(member.id))}
                       aria-label={`Remove ${member.name}`}
-                      sx={{ color: "text.disabled", "&:hover": { color: "error.main" } }}
+                      sx={{
+                        color: "text.disabled",
+                        "&:hover": { color: "error.main" },
+                      }}
                     >
                       <CloseIcon sx={{ fontSize: "0.9rem" }} />
                     </IconButton>

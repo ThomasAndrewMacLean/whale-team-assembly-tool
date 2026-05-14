@@ -7,7 +7,8 @@ const DictionaryContext = createContext<Dictionary | null>(null);
 
 export function useDictionary(): Dictionary {
   const ctx = useContext(DictionaryContext);
-  if (!ctx) throw new Error("useDictionary must be used within DictionaryProvider");
+  if (!ctx)
+    throw new Error("useDictionary must be used within DictionaryProvider");
   return ctx;
 }
 

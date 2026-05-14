@@ -16,14 +16,34 @@ import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
 import CloseIcon from "@mui/icons-material/Close";
-import { useThemeSettings, type ColorMode, type FontSize } from "../theme/AppThemeProvider";
+import {
+  useThemeSettings,
+  type ColorMode,
+  type FontSize,
+} from "../theme/AppThemeProvider";
 export { useThemeSettings };
 
-const COLOR_OPTIONS: { value: ColorMode; label: string; description: string }[] = [
+const COLOR_OPTIONS: {
+  value: ColorMode;
+  label: string;
+  description: string;
+}[] = [
   { value: "normal", label: "Normal", description: "Default Star Wars theme" },
-  { value: "protanopia", label: "Deuteranopia / Protanopia", description: "Safe for red-green colour blindness (Wong palette)" },
-  { value: "tritanopia", label: "Tritanopia", description: "Safe for blue-yellow colour blindness" },
-  { value: "high-contrast", label: "High Contrast", description: "Maximum contrast, minimal colour" },
+  {
+    value: "protanopia",
+    label: "Deuteranopia / Protanopia",
+    description: "Safe for red-green colour blindness (Wong palette)",
+  },
+  {
+    value: "tritanopia",
+    label: "Tritanopia",
+    description: "Safe for blue-yellow colour blindness",
+  },
+  {
+    value: "high-contrast",
+    label: "High Contrast",
+    description: "Maximum contrast, minimal colour",
+  },
 ];
 
 const FONT_MARKS = [
@@ -62,12 +82,21 @@ export default function AccessibilityPanel() {
       >
         <DialogTitle
           id="a11y-dialog-title"
-          sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", pb: 1 }}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            pb: 1,
+          }}
         >
           <Typography variant="h6" component="span">
             Accessibility Settings
           </Typography>
-          <IconButton onClick={() => setOpen(false)} aria-label="Close accessibility settings" size="small">
+          <IconButton
+            onClick={() => setOpen(false)}
+            aria-label="Close accessibility settings"
+            size="small"
+          >
             <CloseIcon />
           </IconButton>
         </DialogTitle>
@@ -89,7 +118,10 @@ export default function AccessibilityPanel() {
                   control={<Radio size="small" />}
                   label={
                     <Box>
-                      <Typography variant="body2" sx={{ fontWeight: value === colorMode ? 600 : 400 }}>
+                      <Typography
+                        variant="body2"
+                        sx={{ fontWeight: value === colorMode ? 600 : 400 }}
+                      >
                         {label}
                       </Typography>
                       <Typography variant="caption" color="text.secondary">
@@ -130,12 +162,19 @@ export default function AccessibilityPanel() {
         <Box sx={{ display: "flex", justifyContent: "flex-end", p: 1.5 }}>
           <Button
             size="small"
-            onClick={() => { setColorMode("normal"); setFontSize("normal"); }}
+            onClick={() => {
+              setColorMode("normal");
+              setFontSize("normal");
+            }}
             sx={{ color: "text.secondary", mr: 1 }}
           >
             Reset defaults
           </Button>
-          <Button variant="contained" size="small" onClick={() => setOpen(false)}>
+          <Button
+            variant="contained"
+            size="small"
+            onClick={() => setOpen(false)}
+          >
             Done
           </Button>
         </Box>

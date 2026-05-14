@@ -45,12 +45,16 @@ export function generateCharacterPlaceholder(name: string): string {
   const H = 266;
 
   // ── Nebula blobs (3 large semi-transparent circles)
-  const blobColors = [pick(NEBULA_COLORS, rand), pick(NEBULA_COLORS, rand), pick(NEBULA_COLORS, rand)];
+  const blobColors = [
+    pick(NEBULA_COLORS, rand),
+    pick(NEBULA_COLORS, rand),
+    pick(NEBULA_COLORS, rand),
+  ];
   const blobs = blobColors.map((color) => {
     const cx = (rand() * W * 1.2 - W * 0.1).toFixed(1);
     const cy = (rand() * H * 1.2 - H * 0.1).toFixed(1);
     const r = (55 + rand() * 90).toFixed(1);
-    const opacity = (0.10 + rand() * 0.16).toFixed(2);
+    const opacity = (0.1 + rand() * 0.16).toFixed(2);
     return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${color}" opacity="${opacity}"/>`;
   });
 

@@ -42,7 +42,12 @@ export default function CharacterDetail({ character, prevId, nextId }: Props) {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement;
-      if (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable) return;
+      if (
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.isContentEditable
+      )
+        return;
 
       if (e.key === "a" || e.key === "A") {
         if (!isEvil && !isInTeam && !teamFull) dispatch(addMember(character));
@@ -56,13 +61,31 @@ export default function CharacterDetail({ character, prevId, nextId }: Props) {
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [character, isEvil, isInTeam, teamFull, dispatch, prevId, nextId, router, lang]);
+  }, [
+    character,
+    isEvil,
+    isInTeam,
+    teamFull,
+    dispatch,
+    prevId,
+    nextId,
+    router,
+    lang,
+  ]);
 
   const stats: { label: string; value: string | number }[] = [
-    ...(character.height ? [{ label: dict.character.stats.height, value: `${character.height} m` }] : []),
-    ...(character.mass ? [{ label: dict.character.stats.mass, value: `${character.mass} kg` }] : []),
-    ...(character.species ? [{ label: dict.character.stats.species, value: character.species }] : []),
-    ...(character.gender ? [{ label: dict.character.stats.gender, value: character.gender }] : []),
+    ...(character.height
+      ? [{ label: dict.character.stats.height, value: `${character.height} m` }]
+      : []),
+    ...(character.mass
+      ? [{ label: dict.character.stats.mass, value: `${character.mass} kg` }]
+      : []),
+    ...(character.species
+      ? [{ label: dict.character.stats.species, value: character.species }]
+      : []),
+    ...(character.gender
+      ? [{ label: dict.character.stats.gender, value: character.gender }]
+      : []),
     ...(character.homeworld && !Array.isArray(character.homeworld)
       ? [{ label: dict.character.stats.homeworld, value: character.homeworld }]
       : []),
@@ -73,8 +96,14 @@ export default function CharacterDetail({ character, prevId, nextId }: Props) {
       <Button
         component={Link}
         href={`/${lang}`}
-        startIcon={<ArrowBackIosNewIcon sx={{ fontSize: "0.75rem !important" }} />}
-        sx={{ mb: 3, color: "text.secondary", "&:hover": { color: "primary.main" } }}
+        startIcon={
+          <ArrowBackIosNewIcon sx={{ fontSize: "0.75rem !important" }} />
+        }
+        sx={{
+          mb: 3,
+          color: "text.secondary",
+          "&:hover": { color: "primary.main" },
+        }}
       >
         {dict.nav.allCharacters}
       </Button>
@@ -118,7 +147,11 @@ export default function CharacterDetail({ character, prevId, nextId }: Props) {
             {isEvil && (
               <Chip
                 label={dict.character.darkSide}
-                sx={{ bgcolor: "rgba(239,68,68,0.1)", color: "error.main", fontWeight: 600 }}
+                sx={{
+                  bgcolor: "rgba(239,68,68,0.1)",
+                  color: "error.main",
+                  fontWeight: 600,
+                }}
               />
             )}
           </Box>
@@ -126,11 +159,20 @@ export default function CharacterDetail({ character, prevId, nextId }: Props) {
           <Box>
             {stats.map(({ label, value }, i) => (
               <Box key={label}>
-                <Box sx={{ display: "flex", justifyContent: "space-between", py: 1 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    py: 1,
+                  }}
+                >
                   <Typography variant="body2" color="text.secondary">
                     {label}
                   </Typography>
-                  <Typography variant="body2" sx={{ textTransform: "capitalize" }}>
+                  <Typography
+                    variant="body2"
+                    sx={{ textTransform: "capitalize" }}
+                  >
                     {value}
                   </Typography>
                 </Box>
@@ -144,7 +186,12 @@ export default function CharacterDetail({ character, prevId, nextId }: Props) {
               <Typography
                 variant="caption"
                 color="text.secondary"
-                sx={{ textTransform: "uppercase", letterSpacing: "0.08em", display: "block", mb: 1 }}
+                sx={{
+                  textTransform: "uppercase",
+                  letterSpacing: "0.08em",
+                  display: "block",
+                  mb: 1,
+                }}
               >
                 {dict.character.stats.affiliations}
               </Typography>
@@ -164,7 +211,11 @@ export default function CharacterDetail({ character, prevId, nextId }: Props) {
 
           <Box>
             {isEvil ? (
-              <Button variant="outlined" disabled sx={{ borderColor: "divider", color: "text.disabled" }}>
+              <Button
+                variant="outlined"
+                disabled
+                sx={{ borderColor: "divider", color: "text.disabled" }}
+              >
                 {dict.character.tooEvil}
               </Button>
             ) : isInTeam ? (

@@ -18,7 +18,8 @@ export default function HeaderControls() {
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
 
   useGlobalShortcuts({
-    onToggleTeam: () => window.dispatchEvent(new CustomEvent("app:toggle-team")),
+    onToggleTeam: () =>
+      window.dispatchEvent(new CustomEvent("app:toggle-team")),
     onShowShortcuts: () => setShortcutsOpen(true),
   });
 
@@ -31,14 +32,20 @@ export default function HeaderControls() {
             onClick={() => setShortcutsOpen(true)}
             aria-label="Show keyboard shortcuts"
             size="small"
-            sx={{ color: "text.secondary", "&:hover": { color: "text.primary" } }}
+            sx={{
+              color: "text.secondary",
+              "&:hover": { color: "text.primary" },
+            }}
           >
             <KeyboardIcon fontSize="small" />
           </IconButton>
         </Tooltip>
         <LanguageSwitcher />
       </Box>
-      <KeyboardShortcuts open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
+      <KeyboardShortcuts
+        open={shortcutsOpen}
+        onClose={() => setShortcutsOpen(false)}
+      />
     </>
   );
 }

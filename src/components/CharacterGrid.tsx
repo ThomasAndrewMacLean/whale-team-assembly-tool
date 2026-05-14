@@ -24,7 +24,7 @@ export default function CharacterGrid({ characters }: Props) {
 
   const filtered = useMemo(
     () => fuzzyFilter(characters, query, (c) => c.name),
-    [characters, query]
+    [characters, query],
   );
 
   return (
@@ -43,7 +43,11 @@ export default function CharacterGrid({ characters }: Props) {
           sx={{ listStyle: "none", p: 0, m: 0 }}
         >
           {filtered.map((character) => (
-            <Grid key={character.id} size={{ xs: 6, sm: 4, md: 3, lg: 2 }} component="li">
+            <Grid
+              key={character.id}
+              size={{ xs: 6, sm: 4, md: 3, lg: 2 }}
+              component="li"
+            >
               <CharacterCard character={character} />
             </Grid>
           ))}

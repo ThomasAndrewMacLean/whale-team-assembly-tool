@@ -3,10 +3,23 @@ import { Geist } from "next/font/google";
 
 const geist = Geist({ subsets: ["latin"] });
 
-export type ColorMode = "normal" | "protanopia" | "tritanopia" | "high-contrast";
+export type ColorMode =
+  | "normal"
+  | "protanopia"
+  | "tritanopia"
+  | "high-contrast";
 export type FontSize = "normal" | "medium" | "large";
 
-const PALETTES: Record<ColorMode, { primary: string; secondary: string; error: string; bgDefault: string; bgPaper: string }> = {
+const PALETTES: Record<
+  ColorMode,
+  {
+    primary: string;
+    secondary: string;
+    error: string;
+    bgDefault: string;
+    bgPaper: string;
+  }
+> = {
   normal: {
     primary: "#FFE81F",
     secondary: "#4FC3F7",
@@ -18,15 +31,15 @@ const PALETTES: Record<ColorMode, { primary: string; secondary: string; error: s
   protanopia: {
     primary: "#F0E442", // yellow — still fine
     secondary: "#56B4E9", // sky blue — fine
-    error: "#E69F00",   // orange — replaces red, clearly distinguishable
+    error: "#E69F00", // orange — replaces red, clearly distinguishable
     bgDefault: "#0a0a14",
     bgPaper: "#111827",
   },
   // Tritanopia — can't distinguish blue/yellow; use orange + pink
   tritanopia: {
-    primary: "#E66100",  // vivid orange
+    primary: "#E66100", // vivid orange
     secondary: "#CC79A7", // pink/mauve
-    error: "#882255",    // deep wine
+    error: "#882255", // deep wine
     bgDefault: "#0a0a14",
     bgPaper: "#111827",
   },
@@ -39,11 +52,15 @@ const PALETTES: Record<ColorMode, { primary: string; secondary: string; error: s
   },
 };
 
-const FONT_SIZES: Record<FontSize, number> = { normal: 14, medium: 16, large: 18 };
+const FONT_SIZES: Record<FontSize, number> = {
+  normal: 14,
+  medium: 16,
+  large: 18,
+};
 
 export function createAppTheme(
   colorMode: ColorMode = "normal",
-  fontSize: FontSize = "normal"
+  fontSize: FontSize = "normal",
 ) {
   const p = PALETTES[colorMode];
   const fontSizeBase = FONT_SIZES[fontSize];
@@ -52,7 +69,10 @@ export function createAppTheme(
   return createTheme({
     palette: {
       mode: "dark",
-      primary: { main: p.primary, contrastText: isHighContrast ? "#000000" : "#0a0a14" },
+      primary: {
+        main: p.primary,
+        contrastText: isHighContrast ? "#000000" : "#0a0a14",
+      },
       secondary: { main: p.secondary, contrastText: "#0a0a14" },
       error: { main: p.error },
       warning: { main: "#F97316" },
@@ -111,11 +131,21 @@ export function createAppTheme(
             animationDuration: "450ms",
             animationTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
           },
-          "::view-transition-old(root)": { animation: "vt-fade-out 120ms ease-out" },
-          "::view-transition-new(root)": { animation: "vt-fade-in 120ms ease-in" },
-          "@keyframes vt-fade-out": { from: { opacity: 1 }, to: { opacity: 0 } },
+          "::view-transition-old(root)": {
+            animation: "vt-fade-out 120ms ease-out",
+          },
+          "::view-transition-new(root)": {
+            animation: "vt-fade-in 120ms ease-in",
+          },
+          "@keyframes vt-fade-out": {
+            from: { opacity: 1 },
+            to: { opacity: 0 },
+          },
           "@keyframes vt-fade-in": { from: { opacity: 0 }, to: { opacity: 1 } },
-          "@keyframes pulse": { "0%, 100%": { opacity: 1 }, "50%": { opacity: 0.4 } },
+          "@keyframes pulse": {
+            "0%, 100%": { opacity: 1 },
+            "50%": { opacity: 0.4 },
+          },
         },
       },
       MuiButtonBase: {
@@ -136,7 +166,10 @@ export function createAppTheme(
       },
       MuiCard: {
         styleOverrides: {
-          root: { backgroundImage: "none", border: `1px solid ${isHighContrast ? "#555555" : "#1F2937"}` },
+          root: {
+            backgroundImage: "none",
+            border: `1px solid ${isHighContrast ? "#555555" : "#1F2937"}`,
+          },
         },
       },
       MuiChip: {

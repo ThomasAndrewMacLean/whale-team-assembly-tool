@@ -11,7 +11,10 @@ interface Options {
  * Registers global keyboard shortcuts.
  * Individual pages/components can also register their own via standard keydown listeners.
  */
-export default function useGlobalShortcuts({ onToggleTeam, onShowShortcuts }: Options = {}) {
+export default function useGlobalShortcuts({
+  onToggleTeam,
+  onShowShortcuts,
+}: Options = {}) {
   const handler = useCallback(
     (e: KeyboardEvent) => {
       // Ignore when typing in an input/textarea/select
@@ -45,7 +48,7 @@ export default function useGlobalShortcuts({ onToggleTeam, onShowShortcuts }: Op
         return;
       }
     },
-    [onToggleTeam, onShowShortcuts]
+    [onToggleTeam, onShowShortcuts],
   );
 
   useEffect(() => {

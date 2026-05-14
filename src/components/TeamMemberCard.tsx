@@ -27,20 +27,33 @@ export default function TeamMemberCard({ character }: Props) {
   const { lang } = useParams<{ lang: string }>();
 
   const stats: { label: string; value: string | number }[] = [
-    ...(character.height ? [{ label: dict.character.stats.height, value: `${character.height} m` }] : []),
-    ...(character.mass ? [{ label: dict.character.stats.mass, value: `${character.mass} kg` }] : []),
-    ...(character.species ? [{ label: dict.character.stats.species, value: character.species }] : []),
-    ...(character.gender ? [{ label: dict.character.stats.gender, value: character.gender }] : []),
+    ...(character.height
+      ? [{ label: dict.character.stats.height, value: `${character.height} m` }]
+      : []),
+    ...(character.mass
+      ? [{ label: dict.character.stats.mass, value: `${character.mass} kg` }]
+      : []),
+    ...(character.species
+      ? [{ label: dict.character.stats.species, value: character.species }]
+      : []),
+    ...(character.gender
+      ? [{ label: dict.character.stats.gender, value: character.gender }]
+      : []),
     ...(character.homeworld && !Array.isArray(character.homeworld)
       ? [{ label: dict.character.stats.homeworld, value: character.homeworld }]
       : []),
-    ...(character.born !== undefined ? [{ label: dict.character.stats.born, value: character.born }] : []),
+    ...(character.born !== undefined
+      ? [{ label: dict.character.stats.born, value: character.born }]
+      : []),
   ];
 
-  const affiliations = (Array.isArray(character.affiliations)
-    ? character.affiliations
-    : [character.affiliations]
-  ).filter(Boolean).slice(0, 3);
+  const affiliations = (
+    Array.isArray(character.affiliations)
+      ? character.affiliations
+      : [character.affiliations]
+  )
+    .filter(Boolean)
+    .slice(0, 3);
 
   return (
     <Box
@@ -110,9 +123,19 @@ export default function TeamMemberCard({ character }: Props) {
 
           <Stack spacing={0.5} sx={{ flex: 1 }}>
             {stats.map(({ label, value }) => (
-              <Box key={label} sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Typography variant="caption" color="text.secondary">{label}</Typography>
-                <Typography variant="caption" sx={{ textTransform: "capitalize" }}>{value}</Typography>
+              <Box
+                key={label}
+                sx={{ display: "flex", justifyContent: "space-between" }}
+              >
+                <Typography variant="caption" color="text.secondary">
+                  {label}
+                </Typography>
+                <Typography
+                  variant="caption"
+                  sx={{ textTransform: "capitalize" }}
+                >
+                  {value}
+                </Typography>
               </Box>
             ))}
           </Stack>
@@ -120,7 +143,17 @@ export default function TeamMemberCard({ character }: Props) {
           {affiliations.length > 0 && (
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
               {affiliations.map((aff) => (
-                <Chip key={aff} label={aff} size="small" variant="outlined" sx={{ fontSize: "0.65rem", height: 20, borderColor: "divider" }} />
+                <Chip
+                  key={aff}
+                  label={aff}
+                  size="small"
+                  variant="outlined"
+                  sx={{
+                    fontSize: "0.65rem",
+                    height: 20,
+                    borderColor: "divider",
+                  }}
+                />
               ))}
             </Box>
           )}
@@ -141,7 +174,10 @@ export default function TeamMemberCard({ character }: Props) {
               variant="outlined"
               color="error"
               sx={{ flex: 1, fontSize: "0.75rem" }}
-              onClick={(e) => { e.stopPropagation(); dispatch(removeMember(character.id)); }}
+              onClick={(e) => {
+                e.stopPropagation();
+                dispatch(removeMember(character.id));
+              }}
             >
               {dict.character.remove}
             </Button>

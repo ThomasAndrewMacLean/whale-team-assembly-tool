@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useMemo,
-} from "react";
+import { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createAppTheme, type ColorMode, type FontSize } from "./theme";
@@ -66,19 +60,28 @@ export default function AppThemeProvider({
 
   const persist = (mode: ColorMode, size: FontSize) => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ colorMode: mode, fontSize: size }));
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ colorMode: mode, fontSize: size }),
+      );
     } catch {
       // ignore
     }
   };
 
   const theme = useMemo(
-    () => createAppTheme(mounted ? colorMode : "normal", mounted ? fontSize : "normal"),
-    [colorMode, fontSize, mounted]
+    () =>
+      createAppTheme(
+        mounted ? colorMode : "normal",
+        mounted ? fontSize : "normal",
+      ),
+    [colorMode, fontSize, mounted],
   );
 
   return (
-    <ThemeSettingsContext.Provider value={{ colorMode, fontSize, setColorMode, setFontSize }}>
+    <ThemeSettingsContext.Provider
+      value={{ colorMode, fontSize, setColorMode, setFontSize }}
+    >
       <ThemeProvider theme={theme}>
         <CssBaseline />
         {children}

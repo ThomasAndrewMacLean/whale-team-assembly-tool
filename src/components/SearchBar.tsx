@@ -13,7 +13,11 @@ interface Props {
   placeholder?: string;
 }
 
-export default function SearchBar({ value, onChange, placeholder = "Search characters…" }: Props) {
+export default function SearchBar({
+  value,
+  onChange,
+  placeholder = "Search characters…",
+}: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Listen for global focus-search event (triggered by "/" shortcut)

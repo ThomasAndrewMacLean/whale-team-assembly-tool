@@ -6,7 +6,7 @@ import { LOCALES } from "@/i18n/config";
 export async function generateStaticParams() {
   const characters = await fetchAllCharacters();
   return LOCALES.flatMap((lang) =>
-    characters.map((c) => ({ lang, id: String(c.id) }))
+    characters.map((c) => ({ lang, id: String(c.id) })),
   );
 }
 

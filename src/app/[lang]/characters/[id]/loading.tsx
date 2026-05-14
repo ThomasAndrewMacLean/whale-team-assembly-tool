@@ -14,13 +14,21 @@ export default function Loading() {
           gap: 4,
         }}
       >
-        <MuiSkeleton variant="rectangular" sx={{ aspectRatio: "3/4", borderRadius: 3 }} />
+        <MuiSkeleton
+          variant="rectangular"
+          sx={{ aspectRatio: "3/4", borderRadius: 3 }}
+        />
         <Stack spacing={2}>
           <MuiSkeleton variant="text" width="80%" height={48} />
           {[1, 2, 3, 4, 5].map((i) => (
             <MuiSkeleton key={i} variant="text" width={`${60 + i * 5}%`} />
           ))}
-          <MuiSkeleton variant="rectangular" width={120} height={36} sx={{ borderRadius: 1 }} />
+          <MuiSkeleton
+            variant="rectangular"
+            width={120}
+            height={36}
+            sx={{ borderRadius: 1 }}
+          />
         </Stack>
       </Box>
     </Container>

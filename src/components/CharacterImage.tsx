@@ -13,7 +13,7 @@ export default function CharacterImage({ src, alt, style, ...props }: Props) {
   // Generate once per name — same name always produces the same SVG data URI
   const placeholder = useMemo(
     () => generateCharacterPlaceholder(alt as string),
-    [alt]
+    [alt],
   );
 
   if (errored) {

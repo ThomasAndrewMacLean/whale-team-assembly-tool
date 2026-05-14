@@ -18,22 +18,29 @@ export const SHORTCUTS = [
     items: [
       { keys: ["/"], description: "Focus search bar" },
       { keys: ["Esc"], description: "Close search / dismiss panel" },
-      { keys: ["←", "→"], description: "Previous / next character (detail page)" },
+      {
+        keys: ["←", "→"],
+        description: "Previous / next character (detail page)",
+      },
     ],
   },
   {
     group: "Team",
     items: [
       { keys: ["T"], description: "Open / close your team panel" },
-      { keys: ["A"], description: "Add current character to team (detail page)" },
-      { keys: ["R"], description: "Remove current character from team (detail page)" },
+      {
+        keys: ["A"],
+        description: "Add current character to team (detail page)",
+      },
+      {
+        keys: ["R"],
+        description: "Remove current character from team (detail page)",
+      },
     ],
   },
   {
     group: "Help",
-    items: [
-      { keys: ["?"], description: "Show this keyboard shortcuts list" },
-    ],
+    items: [{ keys: ["?"], description: "Show this keyboard shortcuts list" }],
   },
 ];
 
@@ -55,7 +62,12 @@ export default function KeyboardShortcuts({ open, onClose }: Props) {
       >
         <DialogTitle
           id="shortcuts-dialog-title"
-          sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", pb: 1 }}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            pb: 1,
+          }}
         >
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <KeyboardIcon fontSize="small" />
@@ -63,25 +75,42 @@ export default function KeyboardShortcuts({ open, onClose }: Props) {
               Keyboard Shortcuts
             </Typography>
           </Box>
-          <IconButton onClick={onClose} aria-label="Close keyboard shortcuts" size="small">
+          <IconButton
+            onClick={onClose}
+            aria-label="Close keyboard shortcuts"
+            size="small"
+          >
             <CloseIcon />
           </IconButton>
         </DialogTitle>
 
         <DialogContent dividers>
           {SHORTCUTS.map((group, gi) => (
-            <Box key={group.group} sx={{ mb: gi < SHORTCUTS.length - 1 ? 2.5 : 0 }}>
+            <Box
+              key={group.group}
+              sx={{ mb: gi < SHORTCUTS.length - 1 ? 2.5 : 0 }}
+            >
               <Typography
                 variant="caption"
                 color="text.secondary"
-                sx={{ textTransform: "uppercase", letterSpacing: "0.08em", display: "block", mb: 1 }}
+                sx={{
+                  textTransform: "uppercase",
+                  letterSpacing: "0.08em",
+                  display: "block",
+                  mb: 1,
+                }}
               >
                 {group.group}
               </Typography>
               {group.items.map(({ keys, description }) => (
                 <Box
                   key={description}
-                  sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", py: 0.75 }}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    py: 0.75,
+                  }}
                 >
                   <Typography variant="body2" color="text.secondary">
                     {description}

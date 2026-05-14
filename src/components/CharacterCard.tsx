@@ -29,7 +29,8 @@ export default function CharacterCard({ character }: Props) {
         flexDirection: "column",
         outline: "2px solid transparent",
         outlineOffset: "0px",
-        transition: "transform 0.2s, box-shadow 0.2s, outline-color 0.2s, outline-offset 0.2s",
+        transition:
+          "transform 0.2s, box-shadow 0.2s, outline-color 0.2s, outline-offset 0.2s",
         "&:hover": {
           transform: "translateY(-4px)",
           boxShadow: "0 8px 32px rgba(255,232,31,0.12)",
@@ -55,7 +56,14 @@ export default function CharacterCard({ character }: Props) {
         }}
       >
         <ViewTransition name={`character-image-${character.id}`} share="morph">
-          <Box sx={{ position: "relative", aspectRatio: "3/4", width: "100%", bgcolor: "background.paper" }}>
+          <Box
+            sx={{
+              position: "relative",
+              aspectRatio: "3/4",
+              width: "100%",
+              bgcolor: "background.paper",
+            }}
+          >
             <CharacterImage
               src={character.image}
               alt={character.name}
