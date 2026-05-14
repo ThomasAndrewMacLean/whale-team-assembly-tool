@@ -1,12 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import Chip from "@mui/material/Chip";
+import Divider from "@mui/material/Divider";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 import { useAppDispatch } from "@/store/hooks";
 import { removeMember } from "@/store/teamSlice";
 import type { Character } from "@/types";
-import styles from "./TeamMemberCard.module.css";
+import CharacterImage from "./CharacterImage";
+import { useDictionary } from "./DictionaryProvider";
 
 interface Props {
   character: Character;
@@ -15,95 +23,131 @@ interface Props {
 export default function TeamMemberCard({ character }: Props) {
   const [flipped, setFlipped] = useState(false);
   const dispatch = useAppDispatch();
+  const dict = useDictionary();
+  const { lang } = useParams<{ lang: string }>();
 
   const stats: { label: string; value: string | number }[] = [
-    ...(character.height
-      ? [{ label: "Height", value: `${character.height} m` }]
-      : []),
-    ...(character.mass
-      ? [{ label: "Mass", value: `${character.mass} kg` }]
-      : []),
-    ...(character.species
-      ? [{ label: "Species", value: character.species }]
-      : []),
-    ...(character.gender ? [{ label: "Gender", value: character.gender }] : []),
+    ...(character.height ? [{ label: dict.character.stats.height, value: `${character.height} m` }] : []),
+    ...(character.mass ? [{ label: dict.character.stats.mass, value: `${character.mass} kg` }] : []),
+    ...(character.species ? [{ label: dict.character.stats.species, value: character.species }] : []),
+    ...(character.gender ? [{ label: dict.character.stats.gender, value: character.gender }] : []),
     ...(character.homeworld && !Array.isArray(character.homeworld)
-      ? [{ label: "Homeworld", value: character.homeworld }]
+      ? [{ label: dict.character.stats.homeworld, value: character.homeworld }]
       : []),
-    ...(character.born !== undefined
-      ? [{ label: "Born", value: character.born }]
-      : []),
+    ...(character.born !== undefined ? [{ label: dict.character.stats.born, value: character.born }] : []),
   ];
 
+  const affiliations = (Array.isArray(character.affiliations)
+    ? character.affiliations
+    : [character.affiliations]
+  ).filter(Boolean).slice(0, 3);
+
   return (
-    <div
-      className={`${styles.scene} ${flipped ? styles.flipped : ""}`}
+    <Box
+      sx={{ perspective: "1200px", height: 320, cursor: "pointer" }}
       onClick={() => setFlipped((f) => !f)}
-      aria-label={`${character.name} card, click to ${flipped ? "show image" : "show details"}`}
     >
-      <div className={styles.card}>
-        {/* FRONT */}
-        <div className={styles.face}>
-          <div className={styles.imageWrapper}>
-            <Image
+      <Box
+        sx={{
+          position: "relative",
+          width: "100%",
+          height: "100%",
+          transformStyle: "preserve-3d",
+          transition: "transform 0.55s",
+          transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
+        }}
+      >
+        {/* Front */}
+        <Card
+          sx={{
+            position: "absolute",
+            inset: 0,
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Box sx={{ position: "relative", flex: 1 }}>
+            <CharacterImage
               src={character.image}
               alt={character.name}
               fill
-              sizes="(max-width: 640px) 50vw, 25vw"
-              className={styles.image}
+              sizes="(max-width: 640px) 50vw, 300px"
+              style={{ objectFit: "cover", objectPosition: "top" }}
             />
-          </div>
-          <div className={styles.frontInfo}>
-            <h3 className={styles.name}>{character.name}</h3>
-            <span className={styles.hint}>Tap to flip ↩</span>
-          </div>
-        </div>
+          </Box>
+          <Box sx={{ p: 1.5 }}>
+            <Typography variant="subtitle1" noWrap sx={{ fontWeight: 700 }}>
+              {character.name}
+            </Typography>
+            <Typography variant="caption" color="text.secondary">
+              {dict.character.tapForStats}
+            </Typography>
+          </Box>
+        </Card>
 
-        {/* BACK */}
-        <div className={`${styles.face} ${styles.back}`}>
-          <div className={styles.backContent}>
-            <h3 className={styles.backName}>{character.name}</h3>
+        {/* Back */}
+        <Card
+          sx={{
+            position: "absolute",
+            inset: 0,
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+            transform: "rotateY(180deg)",
+            overflow: "auto",
+            display: "flex",
+            flexDirection: "column",
+            p: 2,
+            gap: 1,
+          }}
+        >
+          <Typography variant="subtitle1" noWrap sx={{ fontWeight: 700 }}>
+            {character.name}
+          </Typography>
+          <Divider />
 
-            <ul className={styles.statList}>
-              {stats.map(({ label, value }) => (
-                <li key={label} className={styles.statRow}>
-                  <span className={styles.statLabel}>{label}</span>
-                  <span className={styles.statValue}>{value}</span>
-                </li>
+          <Stack spacing={0.5} sx={{ flex: 1 }}>
+            {stats.map(({ label, value }) => (
+              <Box key={label} sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Typography variant="caption" color="text.secondary">{label}</Typography>
+                <Typography variant="caption" sx={{ textTransform: "capitalize" }}>{value}</Typography>
+              </Box>
+            ))}
+          </Stack>
+
+          {affiliations.length > 0 && (
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+              {affiliations.map((aff) => (
+                <Chip key={aff} label={aff} size="small" variant="outlined" sx={{ fontSize: "0.65rem", height: 20, borderColor: "divider" }} />
               ))}
-            </ul>
+            </Box>
+          )}
 
-            {character.affiliations.length > 0 && (
-              <div className={styles.affiliationsBlock}>
-                <span className={styles.sectionLabel}>Affiliations</span>
-                <p className={styles.affiliationText}>
-                  {character.affiliations.slice(0, 3).join(" · ")}
-                  {character.affiliations.length > 3 ? " …" : ""}
-                </p>
-              </div>
-            )}
-
-            <div className={styles.backActions}>
-              <Link
-                href={`/characters/${character.id}`}
-                className={styles.detailLink}
-                onClick={(e) => e.stopPropagation()}
-              >
-                View detail →
-              </Link>
-              <button
-                className={styles.removeBtn}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dispatch(removeMember(character.id));
-                }}
-              >
-                Remove
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <Button
+              component={Link}
+              href={`/${lang}/characters/${character.id}`}
+              size="small"
+              variant="outlined"
+              sx={{ flex: 1, borderColor: "divider", fontSize: "0.75rem" }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {dict.character.viewDetail}
+            </Button>
+            <Button
+              size="small"
+              variant="outlined"
+              color="error"
+              sx={{ flex: 1, fontSize: "0.75rem" }}
+              onClick={(e) => { e.stopPropagation(); dispatch(removeMember(character.id)); }}
+            >
+              {dict.character.remove}
+            </Button>
+          </Box>
+        </Card>
+      </Box>
+    </Box>
   );
 }

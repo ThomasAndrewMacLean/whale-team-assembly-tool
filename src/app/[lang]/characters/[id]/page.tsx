@@ -1,12 +1,20 @@
 import { fetchAllCharacters } from "@/api";
 import CharacterDetail from "@/components/CharacterDetail";
 import { notFound } from "next/navigation";
+import { LOCALES } from "@/i18n/config";
 
-interface Props {
-  params: Promise<{ id: string }>;
+export async function generateStaticParams() {
+  const characters = await fetchAllCharacters();
+  return LOCALES.flatMap((lang) =>
+    characters.map((c) => ({ lang, id: String(c.id) }))
+  );
 }
 
-export default async function CharacterPage({ params }: Props) {
+export default async function CharacterPage({
+  params,
+}: {
+  params: Promise<{ lang: string; id: string }>;
+}) {
   const { id } = await params;
   const characters = await fetchAllCharacters();
   const index = characters.findIndex((c) => c.id === Number(id));

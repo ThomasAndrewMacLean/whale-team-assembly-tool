@@ -1,0 +1,37 @@
+{
+  "nav": {
+    "allCharacters": "Vode Ibic",
+    "previous": "Haryc",
+    "next": "Jii'kad",
+    "fullPage": "Ori'bic"
+  },
+  "home": {
+    "heading": "Aliit Tome Gar",
+    "subtitle": "Solus gar aliit vode jate. Hut'uun, nayc aliit."
+  },
+  "character": {
+    "darkSide": "⚡ Haran Tsad",
+    "addToTeam": "Tome Aliit",
+    "removeFromTeam": "Naas Aliit",
+    "teamFull": "Aliit Ori'jate (5/5)",
+    "tooEvil": "Hut'uun, nu aliit",
+    "tapForStats": "Tion'ad gar →",
+    "viewDetail": "Troan kaysh",
+    "remove": "Naas",
+    "stats": {
+      "height": "Ori'troan",
+      "mass": "Gal'kadla",
+      "species": "Aliit'e",
+      "gender": "Vod'ika",
+      "homeworld": "Manda'yaim",
+      "born": "Cuun'yc",
+      "affiliations": "Tsad Ibic"
+    }
+  },
+  "team": {
+    "heading": "Gar Aliit",
+    "noMembers": "Nu vode jii. Ori'ramikad gar vode.",
+    "empty": "Gar aliit cuyir nayc.",
+    "browse": "Vode ibic →"
+  }
+}

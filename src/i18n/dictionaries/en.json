@@ -1,0 +1,37 @@
+{
+  "nav": {
+    "allCharacters": "All Characters",
+    "previous": "Previous",
+    "next": "Next",
+    "fullPage": "Full page"
+  },
+  "home": {
+    "heading": "Assemble Your Team",
+    "subtitle": "Choose up to 5 heroes. Evil characters are not eligible."
+  },
+  "character": {
+    "darkSide": "⚡ Dark Side",
+    "addToTeam": "Add to Team",
+    "removeFromTeam": "Remove from Team",
+    "teamFull": "Team is Full (5/5)",
+    "tooEvil": "Too evil for the team",
+    "tapForStats": "Tap to see stats →",
+    "viewDetail": "View detail",
+    "remove": "Remove",
+    "stats": {
+      "height": "Height",
+      "mass": "Mass",
+      "species": "Species",
+      "gender": "Gender",
+      "homeworld": "Homeworld",
+      "born": "Born",
+      "affiliations": "Affiliations"
+    }
+  },
+  "team": {
+    "heading": "Your Team",
+    "noMembers": "No members yet. Open a character's page to add them.",
+    "empty": "Your team is empty.",
+    "browse": "Browse characters →"
+  }
+}

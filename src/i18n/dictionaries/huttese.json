@@ -1,0 +1,37 @@
+{
+  "nav": {
+    "allCharacters": "Otoga Chuba-nee",
+    "previous": "Koona Wankee",
+    "next": "Koona Dobra",
+    "fullPage": "Otoga Bata"
+  },
+  "home": {
+    "heading": "H'chu Bata Ya!",
+    "subtitle": "Bargon wonkee goodda-nee. Sleemo moto bata ya."
+  },
+  "character": {
+    "darkSide": "⚡ Sleemo Tsad",
+    "addToTeam": "Bata Bargon",
+    "removeFromTeam": "Natoota Bata",
+    "teamFull": "Bata Tobee Poodoo (5/5)",
+    "tooEvil": "Sleemo, moto bata",
+    "tapForStats": "Choba ya tah →",
+    "viewDetail": "Puna ya",
+    "remove": "Natoota",
+    "stats": {
+      "height": "Tobee-pah",
+      "mass": "Ookwass",
+      "species": "Chuba-tee",
+      "gender": "Wermo-tah",
+      "homeworld": "Nah-tee",
+      "born": "Koona-tah",
+      "affiliations": "Bargon-nee"
+    }
+  },
+  "team": {
+    "heading": "Bata Ya",
+    "noMembers": "Moto chuba-nee. Koona otoga bargon ya.",
+    "empty": "Bata ya moto.",
+    "browse": "Koona otoga →"
+  }
+}

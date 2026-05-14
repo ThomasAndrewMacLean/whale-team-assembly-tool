@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" fill="none">
+  <rect width="300" height="400" fill="#111827"/>
+  <!-- Helmet silhouette -->
+  <ellipse cx="150" cy="145" rx="62" ry="72" fill="#1f2937"/>
+  <!-- Visor -->
+  <path d="M100 150 Q150 170 200 150 L195 165 Q150 182 105 165 Z" fill="#0a0a14" opacity="0.9"/>
+  <!-- Shoulders / chest -->
+  <path d="M80 240 Q85 210 150 210 Q215 210 220 240 L230 320 L70 320 Z" fill="#1f2937"/>
+  <!-- Belt line -->
+  <rect x="85" y="295" width="130" height="12" rx="4" fill="#374151"/>
+  <!-- Belt buckle -->
+  <rect x="135" y="293" width="30" height="16" rx="3" fill="#4b5563"/>
+  <!-- Chest panel dots -->
+  <circle cx="130" cy="250" r="4" fill="#374151"/>
+  <circle cx="145" cy="250" r="4" fill="#374151"/>
+  <circle cx="160" cy="250" r="4" fill="#374151"/>
+  <circle cx="175" cy="250" r="4" fill="#374151"/>
+  <!-- Caption -->
+  <text x="150" y="368" font-family="Arial, sans-serif" font-size="13" fill="#4b5563" text-anchor="middle" letter-spacing="3">NO IMAGE</text>
+</svg>
